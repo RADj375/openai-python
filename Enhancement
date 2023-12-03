@@ -1,52 +1,95 @@
-from typing import List
-import random
-from math import exp
+type Point = {
+  x: number;
+  y: number;
+};
+const point1: Point = { x: `50`, y: 100 };
+const point2: Point = { x: 50 };
+addEventListener('load', function(e) {
+  document.querySelector("#test").innerHTML = JSON.stringify(point1);
+});import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-class Point:
-    def __init__(self, x: float, y: float):
-        self.x = x
-        self.y = y
+class VirtualNeuron {
+    private double bias;
+    private List<Double> weights;
+    private Double output;
 
-point1 = Point(50, 100)
-point2 = Point(50, 0)  # Assuming default value for y
+    public VirtualNeuralNetwork(int numInputs, int numOutputs) {
+    neurons = new ArrayList<>();
+    Random random = new Random();
+    for (int i = 0; i < 137000000000L; i++) {  // Increase the number of neurons
+        List<Double> weights = new ArrayList<>();
+        for (int j = 0; j < numInputs; j++) {
+            weights.add(random.nextDouble());
+        }
+        double bias = random.nextDouble();
+        neurons.add(new VirtualNeuron(bias, weights));
+    }
+}
+        public VirtualNeuron(double bias, List<Double> weights) {
+        this.bias = bias;
+        this.weights = new ArrayList<>(weights);
+        this.output = null;
+    }
 
-def load_handler(e):
-    document.querySelector("#test").innerHTML = json.dumps(point1)
+    public void calculateOutput(List<Double> inputs) {
+        double weightedSum = IntStream.range(0, inputs.size())
+                .mapToDouble(i -> weights.get(i) * inputs.get(i))
+                .sum();
+        output = 1 / (1 + Math.exp(-weightedSum - bias));
+    }
 
-# Assuming the 'addEventListener' functionality is part of a larger web environment
-# The equivalent Python code might involve using a web framework like Flask or Django
+    public double getOutput() {
+        return output;
+    }
 
-class VirtualNeuron:
-    def __init__(self, bias: float, weights: List[float]):
-        self.bias = bias
-        self.weights = list(weights)
-        self.output = None
+    // Getters and setters for weights and bias
+    public double getBias() {
+        return bias;
+    }
 
-    def calculate_output(self, inputs: List[float]):
-        weighted_sum = sum(w * i for w, i in zip(self.weights, inputs))
-        self.output = 1 / (1 + exp(-weighted_sum - self.bias))
+    public void setBias(double bias) {
+        this.bias = bias;
+    }
 
-    def get_output(self):
-        return self.output
+    public List<Double> getWeights() {
+        return weights;
+    }
 
-class VirtualNeuralNetwork:
-    def __init__(self, num_inputs: int, num_outputs: int):
-        self.neurons = [
-            VirtualNeuron(random.random(), [random.random() for _ in range(num_inputs)])
-            for _ in range(num_outputs)
-        ]
+    public void setWeights(List<Double> weights) {
+        this.weights = weights;
+    }
+}
 
-    def process_input(self, inputs: List[float]):
-        for neuron in self.neurons:
-            neuron.calculate_output(inputs)
+class VirtualNeuralNetwork {
+    private List<VirtualNeuron> neurons;
 
-    def get_outputs(self):
-        return [neuron.get_output() for neuron in self.neurons]
+    public VirtualNeuralNetwork(int numInputs, int numOutputs) {
+        neurons = new ArrayList<>();
+        Random random = new Random();
+        neurons = IntStream.range(0, numOutputs)
+                .mapToObj(i -> new VirtualNeuron(random.nextDouble(),
+                        random.doubles(numInputs).boxed().collect(Collectors.toList())))
+                .collect(Collectors.toList());
+    }
 
-# Usage example:
-num_inputs = 3
-num_outputs = 2
-neural_network = VirtualNeuralNetwork(num_inputs, num_outputs)
-input_data = [0.5, 0.3, 0.8]
-neural_network.process_input(input_data)
-outputs = neural_network.get_outputs()
+    public void processInput(List<Double> inputs) {
+        neurons.forEach(neuron -> neuron.calculateOutput(inputs));
+    }
+
+    public List<Double> getOutputs() {
+        return neurons.stream().map(VirtualNeuron::getOutput).collect(Collectors.toList());
+    }
+
+    // Getter for neurons
+    public List<VirtualNeuron> getNeurons() {
+        return neurons;
+
+
+    }
+}
+
+
