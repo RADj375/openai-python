@@ -1,0 +1,52 @@
+from typing import List
+import random
+from math import exp
+
+class Point:
+    def __init__(self, x: float, y: float):
+        self.x = x
+        self.y = y
+
+point1 = Point(50, 100)
+point2 = Point(50, 0)  # Assuming default value for y
+
+def load_handler(e):
+    document.querySelector("#test").innerHTML = json.dumps(point1)
+
+# Assuming the 'addEventListener' functionality is part of a larger web environment
+# The equivalent Python code might involve using a web framework like Flask or Django
+
+class VirtualNeuron:
+    def __init__(self, bias: float, weights: List[float]):
+        self.bias = bias
+        self.weights = list(weights)
+        self.output = None
+
+    def calculate_output(self, inputs: List[float]):
+        weighted_sum = sum(w * i for w, i in zip(self.weights, inputs))
+        self.output = 1 / (1 + exp(-weighted_sum - self.bias))
+
+    def get_output(self):
+        return self.output
+
+class VirtualNeuralNetwork:
+    def __init__(self, num_inputs: int, num_outputs: int):
+        self.neurons = [
+            VirtualNeuron(random.random(), [random.random() for _ in range(num_inputs)])
+            for _ in range(num_outputs)
+        ]
+
+    def process_input(self, inputs: List[float]):
+        for neuron in self.neurons:
+            neuron.calculate_output(inputs)
+
+    def get_outputs(self):
+        return [neuron.get_output() for neuron in self.neurons]
+
+# Usage example:
+num_inputs = 3
+num_outputs = 2
+neural_network = VirtualNeuralNetwork(num_inputs, num_outputs)
+input_data = [0.5, 0.3, 0.8]
+neural_network.process_input(input_data)
+outputs = neural_network.get_outputs()
